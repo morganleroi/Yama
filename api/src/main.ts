@@ -5,6 +5,7 @@ import {MoviesModule} from "./movies/movies.module";
 async function bootstrap() {
   const app = await NestFactory.create(MoviesModule);
   app.enableVersioning();
+  app.enableCors();
 
   const options: SwaggerDocumentOptions =  {
     operationIdFactory: (
@@ -22,7 +23,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config, options);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(process.env.PORT || 3000);
+  await app.listen(process.env.PORT || 8080);
 }
 
 
