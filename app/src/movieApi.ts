@@ -1,24 +1,41 @@
 import axios from "axios";
 import {MovieDto} from "./MovieDto";
 
-const apiHost = `http://localhost:8080/v1/movies`;
+const apiHost = import.meta.env.VITE_API_HOST;
+
+function createOrUpdateMovie(movie: MovieDto) {
+    if (movie.objectID) {
+        return updateMovie(movie);
+    }
+
+    return createMovie({
+        objectID: '66677',
+        ...movie
+    })
+}
 
 function createMovie(movie: MovieDto) {
-    axios.post(`${apiHost}`, movie).then(resp => {
-        console.log("Success");
-    })
+    return axios.post(`${apiHost}/v1/movies`, movie, {
+        validateStatus: function (status) {
+            return status === 201;
+        }
+    });
 }
 
 function deleteMovie(objectID: any) {
-    axios.delete(`${apiHost}/${objectID}`).then(resp => {
-        console.log("Success");
-    })
+    return axios.delete(`${apiHost}/v1/movies/${objectID}`, {
+        validateStatus: function (status) {
+            return status === 200;
+        }
+    });
 }
 
 async function updateMovie(movie: MovieDto) {
-    axios.put(`${apiHost}/${movie.objectID}`, movie).then(resp => {
-        console.log("Success");
+    return axios.put(`${apiHost}/v1/movies/${movie.objectID}`, movie, {
+        validateStatus: function (status) {
+            return status === 200;
+        }
     })
 }
 
-export {createMovie, updateMovie, deleteMovie}
+export {createOrUpdateMovie, deleteMovie}

@@ -1,4 +1,4 @@
-export class MovieDto {
+export interface MovieDto {
     title: string;
     alternative_titles: string[];
     year: number;
@@ -9,5 +9,5 @@ export class MovieDto {
     actors: string[];
     actor_facets: string[];
     genre: string[];
-    objectID: string;
+    objectID?: string;
 }
