@@ -5,17 +5,26 @@ import {MovieDto} from "./MovieDto";
 import MovieEditor from "./MovieEditor";
 import {deleteMovie} from "./movieApi";
 
-const searchClient = algoliasearch('XXX', 'XXX');
+const searchClient = algoliasearch(import.meta.env.VITE_ALGOLIA_APP_ID, import.meta.env.VITE_ALGOLIA_APP_READ_KEY);
 
 function CustomHits(props: any) {
     const {hits} = useHits();
+
+    function deleteHit(hit: any) {
+        deleteMovie(hit.objectID).then(resp => {
+            hits.splice(hits.indexOf(hit), 1);
+        })
+    }
+
     return (
         <div className="ais-Hits">
             <ol className="ais-Hits-list grid grid-cols-4 gap-4 justify-items-stretch shadow-2xl rounded-2xl">
                 {hits.map(hit => (
-                    <li key={hit.objectID} onClick={() => props.onMovieClicked(hit)}
+                    <li key={hit.objectID} onClick={(e) => {
+                        props.onMovieClicked(hit);
+                    }}
                         className="ais-Hits-item bg-slate-700 hover:bg-slate-600 p-3 cursor-pointer">
-                        <Hit hit={hit}/>
+                        <Hit hit={hit} onMovieDeleted={deleteHit}/>
                     </li>
                 ))
                 }
@@ -25,10 +34,7 @@ function CustomHits(props: any) {
 }
 
 // @ts-ignore
-function Hit(
-    {
-        hit
-    }) {
+function Hit({hit, onMovieDeleted}) {
     return (
         <article className='flex flex-row'>
             <img className="opacity-90" src={hit.image}
@@ -42,10 +48,11 @@ function Hit(
                     root: 'text-xl text-slate-100 font-bold',
                     highlighted: 'bg-slate-800',
                 }} attribute="title" hit={hit}/>
-                <p>{hit.genre.join(",")}</p>
+                <p>{hit.genre?.join(",")}</p>
                 <p>{hit.year}</p>
 
-                <svg onClick={() => deleteMovie(hit.objectID)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="20px" height="20px">
+                <svg onClick={() => onMovieDeleted(hit)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"
+                     width="20px" height="20px">
                     <path fill="#afc4e1" d="M50,21H14v36c0,1.105,0.895,2,2,2h32c1.105,0,2-0.895,2-2V21z"/>
                     <path fill="#becde8" d="M39,59V21H14v36c0,1.104,0.895,2,2,2H39z"/>
                     <path fill="#cad8ed" d="M25,59V21H14v36c0,1.104,0.895,2,2,2H25z"/>
@@ -65,23 +72,23 @@ function Hit(
 }
 
 function App() {
-
     const [movie, setMovie] = useState<MovieDto>()
-
     return (
-
         <div className="p-6 flex flex-col items-center mx-auto">
             <p className="text-6xl mt-10 font-bold text-slate-100 ">YAMA</p>
             <p className="text-sm mb-5 font-bold text-slate-100 font-bold ">Yet Another Movie App</p>
             <InstantSearch searchClient={searchClient} indexName="Movies">
-                <SearchBox
-                    classNames={{
-                        root: 'w-2/5 m-10',
+                <div className="flex flex-row items-center w-3/5">
+                    <SearchBox classNames={{
+                        root: 'w-3/5 m-10',
                         form: 'bg-transparent',
                         input: 'rounded-md text-xl'
-                    }}
-                    placeholder="Search for a film ..."/>
-
+                    }} placeholder="Search for a film ..."/>
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                            onClick={() => setMovie({} as MovieDto)}>
+                        or add a new one!
+                    </button>
+                </div>
                 <CustomHits onMovieClicked={setMovie}/>
             </InstantSearch>
             <MovieEditor movie={movie}/>
