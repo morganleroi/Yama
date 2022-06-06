@@ -3,6 +3,7 @@ import {MoviesControllerV1} from './moviesControllerV1';
 import {AlgoliaService} from "../algolia/algolia.service";
 import {ConfigModule} from "@nestjs/config";
 import {UpdateMovieDto} from "./dto/update-movie.dto";
+import {AlgoliaClientWrapper} from "../algolia/algoliaClientWrapper";
 
 describe('MoviesController', () => {
     let controller: MoviesControllerV1;
@@ -11,7 +12,7 @@ describe('MoviesController', () => {
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
             controllers: [MoviesControllerV1],
-            providers: [AlgoliaService],
+            providers: [AlgoliaService, AlgoliaClientWrapper],
             imports: [ConfigModule.forRoot({
                 envFilePath: ['.env.dev.local', '.env'],
             })],
