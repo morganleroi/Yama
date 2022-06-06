@@ -1,5 +1,5 @@
 import axios from "axios";
-import {MovieDto} from "./MovieDto";
+import {MovieDto} from "../MovieDto";
 
 const apiHost = import.meta.env.VITE_API_HOST;
 

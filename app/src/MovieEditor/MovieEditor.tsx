@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Col, Drawer, Form, Input, Row} from 'antd';
 import "antd/dist/antd.css";
 import {MovieDto} from "../MovieDto";
-import {createOrUpdateMovie, deleteMovie} from "../movieApi";
+import {createOrUpdateMovie, deleteMovie} from "../service/movieApi";
 import {MovieEditorError} from "./MovieEditorError";
 import {MovieEditorSuccess} from "./MovieEditorSuccess";
 
