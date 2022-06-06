@@ -35,6 +35,38 @@ describe('AlgoliaService', () => {
         expect(service).toBeDefined();
     });
 
+    it('should send update movie to algolia service', async () => {
+        jest.spyOn(algoliaClient, 'getIndex').mockImplementation(() => {
+            return {
+                partialUpdateObject: (object: Record<string, any>) =>
+                    Promise.resolve({
+                        objectID: object.objectID,
+                        taskID: 123,
+                    }),
+            } as any;
+        });
+
+        expect(await service.updateMovie('42', {} as UpdateMovieDto)).toEqual({
+            objectID: '42',
+            taskID: 123,
+        });
+    });
+
+    it('should send create movie to algolia service', async () => {
+        jest.spyOn(algoliaClient, 'getIndex').mockImplementation(() => {
+            return {
+                saveObject: (object: Record<string, any>) =>
+                    Promise.resolve({
+                        objectID: object.objectID,
+                        taskID: 123,
+                    }),
+            } as any;
+        });
+
+        const result = await service.createNewMovie({} as MovieDto);
+        expect(result.objectID).toBeDefined();
+    });
+
     it('should wrap error to the user when creating new movie', async () => {
         setupSpyAndThrow(algoliaClient);
         await expect(async () => await service.createNewMovie({} as MovieDto)).rejects.toThrowError(

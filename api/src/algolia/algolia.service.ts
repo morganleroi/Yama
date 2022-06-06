@@ -2,6 +2,7 @@ import {HttpException, Injectable, Logger} from '@nestjs/common';
 import {MovieDto} from '../movies/dto/movie.dto';
 import {UpdateMovieDto} from '../movies/dto/update-movie.dto';
 import {AlgoliaClientWrapper} from './algoliaClientWrapper';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class AlgoliaService {
@@ -12,7 +13,11 @@ export class AlgoliaService {
 
     async createNewMovie(movie: MovieDto): Promise<{ objectID: string; taskId: number }> {
         try {
-            const result = await this.algolia.getIndex().saveObject(movie);
+            let uuid = randomUUID();
+            const result = await this.algolia.getIndex().saveObject({
+               objectID: uuid,
+                ...movie,
+            });
 
             let newMovie = {
                 objectID: result.objectID,
@@ -21,6 +26,7 @@ export class AlgoliaService {
             this.logger.log('Movie created with success', newMovie);
             return newMovie;
         } catch (e) {
+            console.log(e)
             this.logger.error('Fail to create a new movie', e);
             throw new Error('Unable to create movie. Please contact YAMA Administrator');
         }
@@ -29,7 +35,7 @@ export class AlgoliaService {
     async updateMovie(
         objectID: string,
         movie: UpdateMovieDto,
-    ): Promise<{ objectID: string; taskId: number }> {
+    ): Promise<{ objectID: string; taskID: number }> {
         try {
             const result = await this.algolia.getIndex().partialUpdateObject({
                 objectID,
@@ -38,9 +44,10 @@ export class AlgoliaService {
 
             let updatedMovie = {
                 objectID: result.objectID,
-                taskId: result.taskID,
+                taskID: result.taskID,
             };
             this.logger.log('Movie updated with succes', updatedMovie);
+
             return updatedMovie;
         } catch (e) {
             this.logger.error('Fail to update a new movie', e);
