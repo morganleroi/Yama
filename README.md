@@ -47,6 +47,34 @@ pnpm i
 pnpm test
 ```
 
+## Build API
+
+To build the Node App
+```shell
+npm i
+npm run build
+```
+
+To build the docker image
+
+```shell
+docker build -t morganleroi/yama-api .
+```
+
+## Build APP
+
+To build the React App (Prod package)
+```shell
+pnpm i
+npm build
+```
+
+To build the docker image
+
+```shell
+docker build -t morganleroi/yama-api .
+```
+
 What is (still) missing
 
 - [ ] API Healthchecks (Algolia monitoring status, Log indexes, Node Process)
