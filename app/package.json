@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/testing-library__jest-dom": "^5.14.3",
     "algoliasearch": "^4.13.1",
     "antd": "^4.20.7",
     "axios": "^0.27.2",
