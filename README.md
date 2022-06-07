@@ -2,6 +2,8 @@
 
 **Stands for "Yet another movie app". 
 
+### You can play with this awesome app at https://yama.azureedge.net/
+
 ## Test in local 
 You need to have the following tools in order to build & run the app
 - Docker
