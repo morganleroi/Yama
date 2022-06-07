@@ -29,7 +29,7 @@ function App() {
                     />
                     <button
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                        onClick={() => setSelectedMovie({} as MovieDto)}
+                        onClick={() => setSelectedMovie({image: 'https://user-images.githubusercontent.com/2246570/172069912-1b362389-f5ee-421b-a1fd-b3630508d4f8.jpg'} as MovieDto)}
                     >
                         or add a new one!
                     </button>

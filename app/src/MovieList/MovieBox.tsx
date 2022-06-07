@@ -23,7 +23,7 @@ export function MovieBox({ hit }) {
           attribute="title"
           hit={hit}
         />
-        <p>{hit.genre?.join(',')}</p>
+        <p>{hit.genre?.join(' ')}</p>
         <p>{hit.year}</p>
       </div>
     </article>
