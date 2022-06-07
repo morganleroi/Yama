@@ -26,3 +26,20 @@ if you only need to runs one service, then use
 ```shell
 docker-compose up -d (app|api)
 ```
+
+## Running automated tests
+
+### e2e
+```shell
+npx codeceptjs run --steps
+```
+
+### api
+```shell
+npm run test
+```
+
+### api
+```shell
+pnpm test
+```
