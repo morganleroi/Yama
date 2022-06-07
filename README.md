@@ -29,17 +29,20 @@ docker-compose up -d (app|api)
 
 ## Running automated tests
 
-### e2e
+### e2e (Folder e2e)
 ```shell
+npm i
 npx codeceptjs run --steps
 ```
 
-### api
+### Yama api (Folder Api)
 ```shell
+npm i
 npm run test
 ```
 
-### api
+### Yama app (Folder App)
 ```shell
+pnpm i
 pnpm test
 ```
