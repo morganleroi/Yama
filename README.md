@@ -46,3 +46,10 @@ npm run test
 pnpm i
 pnpm test
 ```
+
+What is (still) missing
+
+- [ ] API Healthchecks (Algolia monitoring status, Log indexes, Node Process)
+- [ ] A fully working CI and CD
+- [ ] A secure way to protect Admin route 
+- [ ] TLS Certificates (Domain + Api)
